@@ -285,7 +285,7 @@ public class Compilador extends javax.swing.JFrame {
         /*Tipo de datos*/
         // Agrupacion 1
         gramatica.group("VALOR", "(CADENA|CADENA_FECHA|CADENA_HORA|CADENA_MINUTO|NUMERO)", true);
-
+        /***************************************variables*******************************/
         /*Declaracion de variables*/
         // Agrupacion 2
         gramatica.group("VARIABLE", "TIPO_DE_DATO IDENTIFICADOR A_Asignacion VALOR", true);
@@ -301,26 +301,33 @@ public class Compilador extends javax.swing.JFrame {
                 + "en la declaracion [#,%]");
 
         /*Errores tipo de dato y = en el aire */
-        gramatica.delete("TIPO_DE_DATO", 4, "Error Sintactico {} tipo de dato no esta en una declaracion [#,%]");
+        gramatica.delete("TIPO_DE_DATO", 4, "Error Sintactico {} el tipo de dato no está en una declaración [#,%]");
         gramatica.delete("A_Asignacion", 5, "Error Sintactico {} el operador de asignacion no esta en una declaracion [#,%]");
 
         //Agrupar identificadores y parametros
         gramatica.group("VALOR", "IDENTIFICADOR", true);
         gramatica.group("PARAMETROS", "VALOR (Coma VALOR)*");
-
+        //**************FUNCIONES***************
         //Agrupar Funciones:
          gramatica.group("FUNCIONES", "(NOMBREFUNCION|FUNCION)", true);
          gramatica.group("FUNCIONES_COMPLETA", "FUNCIONES DosPuntos PARAMETROS", true);
         //Agrupar ESTRUCTURAS_CONTROL
         gramatica.group("ESTRUCTURAS_CONTROL", "(CONDICIONALES|CICLOS)", true);
         gramatica.group("ESTRUCTURAS_CONTROL_COMPLETA", "ESTRUCTURAS_CONTROL DosPuntos PARAMETROS", true);
-
+        //*** FUNCIONES NATIVAS
+        gramatica.group("FUNCIONES_NATIVAS","Biblioteca Punto FuNA AG_Parentesis_Abre PARAMETROS AG_Parentesis_Cierra Punto_Coma",true);
+        //error
+        
+//******* PUNTO Y COMA 
         //punto y coma
         //cualquier columna mal documentar final line column
         gramatica.finalLineColumn();
         gramatica.group("VARIABLE_COMPLETA", "VARIABLE Punto_Coma", true);
         gramatica.group("VARIABLE_COMPLETA", "VARIABLE", true, 1, "Error Sintactico {} falto punto y coma [#,%]");
-        //error punto y coma en el aire
+        gramatica.group("FUNCIONES_NATIVAS_COMP", "FUNCIONES_NATIVAS Punto_Coma",true);
+        gramatica.group("FUNCIONES_NATIVAS_COMP", "FUNCIONES_NATIVAS", true, 1, "Error Sintactico {} falto punto y coma [#,%]");
+
+//error punto y coma en el aire
         gramatica.group("PUNTO_COMA", "Punto_Coma", true, 15, "Error Sintactico {} Punto y coma en el aire [#,%]");
 
         gramatica.show();

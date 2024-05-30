@@ -140,8 +140,9 @@ OpAsignacion = "="
 /* Números */
 {todosNumeros} { return token(yytext(), "NUMERO", yyline, yycolumn); }
 
-
-
+/*FUNCIONES NATIVAS*/
+"Calculos" { return token(yytext(), "Biblioteca", yyline, yycolumn); }
+"CalcularIMC" { return token(yytext(), "FuNa", yyline, yycolumn); }
 
 /* Errores */
 "@"{Digito}+{Letra}({Letra}|{Digito})* { return token(yytext(), "ERROR_LEXICO_2", yyline, yycolumn); } //Error 2: identificador no válido, inicia con un número
@@ -149,6 +150,5 @@ OpAsignacion = "="
 {Letra}+ { return token(yytext(), "ERROR_LEXICO_5", yyline, yycolumn); } //Error 5: solo letra
 ({Letra}|{Digito})+ { return token(yytext(), "ERROR_LEXICO_6", yyline, yycolumn); } //Error 6: letra o dígito sin definición
 ({OpAritmetico}{OpAritmetico}+)|({OpComparacion}{OpComparacion}+)|({OpLogico}{OpLogico}+)|({OpPuntuacion}{OpPuntuacion}+) {return token(yytext(), "ERROR_LEXICO_7", yyline, yycolumn);}//Error 7: más de un mismo operador junto
-{EspacioEnBlanco}{EspacioEnBlanco}+ { return token(yytext(), "ERROR_ESPACIOS", yyline, yycolumn); } //Demasiados espacios en blanco
 {todosNumeros} { return token(yytext(), "ERROR_NUMERO", yyline, yycolumn); } //Número sin propósito
 . { return token(yytext(), "ERROR_LEXICO_1", yyline, yycolumn); } //Caracter no reconocido
